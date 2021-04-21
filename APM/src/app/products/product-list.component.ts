@@ -6,7 +6,8 @@ import { IProduct } from "./product";
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.css']
 })
-export class ProductlistComponent implements OnInit {    
+export class ProductlistComponent implements OnInit {
+        
     pageTitle: string = 'Product List';
     imageWidth: number = 50;
     imageMargin: number = 2;
@@ -16,9 +17,10 @@ export class ProductlistComponent implements OnInit {
     public get listFilter(): string {
         return this._listFilter;
     }
-    public set listFilter(v: string) {
-        this._listFilter = v;
-        console.log('In Setter:', v);
+    public set listFilter(filterBy: string) {
+        this._listFilter = filterBy;
+        console.log('In Setter:', filterBy);
+        this.filteredproducts = this.performFilter(filterBy);
     }
     
     products: IProduct[] = [
@@ -43,10 +45,17 @@ export class ProductlistComponent implements OnInit {
             "imageUrl": "assets/images/garden_cart.png"
         }
     ];
+    filteredproducts: IProduct[] = [];
+
     toggleImage(): void {
         this.showImage = !this.showImage;
     }
     ngOnInit(): void {
         this.listFilter = 'cart';
+    }
+    performFilter(filterBy: string): IProduct[] {
+        filterBy = filterBy.toLocaleLowerCase();
+        return this.products.filter((product: IProduct) =>
+            product.productName.toLocaleLowerCase().includes(filterBy));
     }
 }
