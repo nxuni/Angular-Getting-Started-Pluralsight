@@ -12,4 +12,7 @@ export class StarComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         this.cropWidth = this.rating * 75 / 5;
     }
+    onClick(): void {
+        console.log(`The rating ${this.rating} was clicked!`);
+    }
 }
